@@ -54,4 +54,9 @@ class UmengCommonSdk {
     List<dynamic> args = [error];
     _channel.invokeMethod('reportError', args);
   }
+
+  static Future<String> getOaid() async {
+    String oaid = await _channel.invokeMethod('getOaid');
+    return oaid;
+  }
 }

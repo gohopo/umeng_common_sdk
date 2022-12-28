@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
+import com.umeng.commonsdk.listener.OnGetOaidListener;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -124,6 +125,9 @@ public class UmengCommonSdkPlugin implements FlutterPlugin, MethodCallHandler {
         case "reportError":
           reportError(args);
           break;
+        case "getOaid":
+          getOaid(result);
+          break;
         default:
           result.notImplemented();
           break;
@@ -210,5 +214,14 @@ public class UmengCommonSdkPlugin implements FlutterPlugin, MethodCallHandler {
     String error = (String)args.get(0);
     MobclickAgent.reportError(getContext(), error);
     android.util.Log.i("UMLog", "reportError:"+error);
+  }
+
+  private void getOaid(final Result result){
+    UMConfigure.getOaid(getContext(), new OnGetOaidListener() {
+      @Override
+      public void onGetOaid(String s) {
+        result.success(s);
+      }
+    });
   }
 }
